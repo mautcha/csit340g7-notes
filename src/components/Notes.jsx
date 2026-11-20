@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import NoteCard from './NoteCard.jsx'
 
 const startingNotes = [
@@ -36,10 +36,6 @@ function Notes() {
     return () => clearTimeout(id)
   }, [form])
 
-  const visibleNotes = notes.filter((note) =>
-    note.title.toLowerCase().includes(search.trim().toLowerCase())
-  )
-
   function handleChange(e) {
     const { name, value } = e.target
     setForm({ ...form, [name]: value })
@@ -61,6 +57,13 @@ function Notes() {
   function handleDelete(id) {
     setNotes(notes.filter((note) => note.id !== id))
   }
+
+  const visibleNotes = useMemo(() => {
+    console.log('filtering')
+    return notes.filter((note) =>
+      note.title.toLowerCase().includes(search.toLowerCase())
+    )
+  }, [notes, search])
 
   return (
     <div className="grid min-h-screen grid-cols-[420px_1fr]">
