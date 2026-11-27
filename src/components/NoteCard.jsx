@@ -1,4 +1,4 @@
-import { useState, useContext, memo } from 'react'
+import { useState, useContext } from 'react'
 import { SettingsContext } from '../SettingsContext.js'
 
 function NoteCard({ id, title, body, onDelete }) {
