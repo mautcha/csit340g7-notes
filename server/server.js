@@ -20,7 +20,13 @@ app.get('/notes', async (req, res) => {
 })
 
 app.post('/notes', async (req, res) => {
-  const { title, body } = req.body
+  const title = typeof req.body.title === 'string' ? req.body.title.trim() : ''
+  const body = typeof req.body.body === 'string' ? req.body.body.trim() : ''
+
+  if (!title || !body) {
+    return res.status(400).json({ error: 'Title and body are required' })
+  }
+
   const { data, error } = await supabase
     .from('notes')
     .insert({ title, body })
